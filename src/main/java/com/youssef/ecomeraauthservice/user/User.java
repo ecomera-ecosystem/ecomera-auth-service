@@ -1,6 +1,8 @@
 package com.youssef.ecomeraauthservice.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.youssef.ecomeraauthservice.common.BaseEntity;
+import com.youssef.ecomeraauthservice.token.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -57,6 +60,9 @@ public class User extends BaseEntity implements UserDetails {
     @Column(length = 45)
     private String ipAddress;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade =  CascadeType.ALL, orphanRemoval = true)
+    private List<Token> tokens;
 
     // Spring Security UserDetails methods
     @Override
