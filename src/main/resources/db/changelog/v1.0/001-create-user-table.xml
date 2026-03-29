@@ -7,7 +7,7 @@
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
     <changeSet id="create_user_table" author="youssef">
-        <preConditions onFail="HALT">
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="app_user"/>
             </not>
