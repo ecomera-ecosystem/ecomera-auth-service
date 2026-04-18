@@ -8,7 +8,7 @@
         <version>3.5.11</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.youssef</groupId>
+    <groupId>com.ecomera</groupId>
     <artifactId>ecomera-auth-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ecomera-auth-service</name>
