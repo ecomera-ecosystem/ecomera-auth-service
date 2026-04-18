@@ -1,6 +1,8 @@
 package com.youssef.ecomeraauthservice.security;
 
 import com.youssef.ecomeraauthservice.token.TokenRepository;
+import com.youssef.ecomeraauthservice.user.User;
+import com.youssef.ecomeraauthservice.user.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,7 +22,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;  // Add this
     private final TokenRepository tokenRepository;
 
     @Override
@@ -31,45 +31,38 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
-
-        // Skip authentication for auth endpoints
-        if (request.getServletPath().contains("api/v1/auth")) {
-            filterChain.doFilter(request, response);
-        }
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-        // Extract the JWT from the header
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
 
-        // If email is present but not authenticated, validate the token and set auth in security context
+        final String jwt = authHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(jwt);
+
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            // Load User entity directly instead of UserDetails
+            User user = userRepository.findByEmail(userEmail).orElse(null);
+
+            if (user == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             boolean isTokenActive = tokenRepository.findByValue(jwt)
                     .map(t -> !t.isExpired() && !t.isRevoked())
                     .orElse(false);
 
-            // Update context with valid auth if token valid and active
-            if (jwtService.isTokenValid(jwt, userDetails) && isTokenActive) {
+            if (jwtService.isTokenValid(jwt, user) && isTokenActive) {
                 var authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null, // No credentials needed, token is validated
-                        userDetails.getAuthorities()
+                        user,  // Store User entity
+                        null,
+                        user.getAuthorities()
                 );
-
-                authToken.setDetails(new WebAuthenticationDetails(request));
-
-                // Set the auth in the security context
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
-        // Next filter in the chain
         filterChain.doFilter(request, response);
     }
-
 }
