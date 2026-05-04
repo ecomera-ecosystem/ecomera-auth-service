@@ -1,4 +1,4 @@
-name: "CodeQL Advanced"
+name: Ecomera Auth Service CodeQL
 
 on:
   push:
@@ -9,28 +9,11 @@ on:
     - cron: '0 1 * * 1'
 
 jobs:
-  analyze:
-    name: Analyze (${{ matrix.language }})
-    runs-on: ubuntu-latest
+  call-codeql:
     permissions:
-      security-events: write
       actions: read
       contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'java' ]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        with:
-          languages: ${{ matrix.language }}
-
-      - name: Autobuild Project
-        uses: github/codeql-action/autobuild@v4
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+      security-events: write
+    uses: ecomera-ecosystem/.github/.github/workflows/codeql.yml@main
+    with:
+      language: 'java'
