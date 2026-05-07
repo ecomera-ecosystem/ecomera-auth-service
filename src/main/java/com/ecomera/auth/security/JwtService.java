@@ -19,9 +19,9 @@ public class JwtService {
 
     @Value("${jwt.signing-key}")
     private String signingKey;
-    @Value("${jwt.access-token-ttl}")
+    @Value("${jwt.access-token-ttl:3600000}")
     private long accessTokenTtl;
-    @Value("${jwt.refresh-token-ttl}")
+    @Value("${jwt.refresh-token-ttl:604800000}")
     private long refreshTokenTtl;
 
     private SecretKey getKey() {
