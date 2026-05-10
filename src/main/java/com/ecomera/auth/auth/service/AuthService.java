@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,10 @@ public class AuthService {
         log.info("User registered successfully: {}", savedUser.getEmail());
 
         // Generate tokens
-        String jwtToken = jwtService.generateToken(savedUser);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", savedUser.getId().toString());
+        claims.put("roles", savedUser.getRole().name());
+        String jwtToken = jwtService.generateToken(claims, savedUser);
         String refreshToken = jwtService.generateRefreshToken(savedUser);
 
         // Save access token
@@ -86,7 +90,10 @@ public class AuthService {
         User user = (User) authentication.getPrincipal();
 
         // Generate tokens
-        String jwtToken = jwtService.generateToken(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId().toString());
+        claims.put("roles", user.getRole().name());
+        String jwtToken = jwtService.generateToken(claims, user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
         // Revoke old tokens and save new one
@@ -120,7 +127,10 @@ public class AuthService {
 
         User user = storedToken.getUser();
 
-        String accessToken = jwtService.generateToken(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId().toString());
+        claims.put("roles", user.getRole().name());
+        String accessToken = jwtService.generateToken(claims, user);
 
         revokeAllUserTokens(user);
 
