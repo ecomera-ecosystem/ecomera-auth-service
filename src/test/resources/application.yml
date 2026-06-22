@@ -1,0 +1,17 @@
+spring:
+  config:
+    import: ""
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+    vault:
+      enabled: false
+
+jwt:
+  signing-key: ${JWT_SIGNING_KEY:SuperSecretJWTKeyThatShouldBeRotatedRegularly1234567890}
+  access-token-ttl: ${JWT_ACCESS_TTL:3600000}
+  refresh-token-ttl: ${JWT_REFRESH_TTL:604800000}
