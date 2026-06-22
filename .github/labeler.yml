@@ -61,11 +61,11 @@ ci-cd:
   - changed-files:
       - any-glob-to-any-file: [ ".github/workflows/**", "Dockerfile", "docker-compose.yml" ]
 
-qodana:
+sonarqube:
   - changed-files:
-      - any-glob-to-any-file: [ ".github/workflows/qodana.yml", "qodana.yaml" ]
-  - title: [ "qodana", "static analysis", "code quality" ]
-  - body: [ "qodana", "inspection", "lint", "static analysis", "code quality", "jetbrains" ]
+      - any-glob-to-any-file: [ "pom.xml", ".github/workflows/ci.yml" ]
+  - title: [ "sonarqube", "sonarcloud", "code quality", "static analysis" ]
+  - body: [ "sonarqube", "sonarcloud", "sonar", "code quality", "static analysis" ]
 
 docker:
   - changed-files:
