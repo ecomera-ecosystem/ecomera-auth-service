@@ -9,6 +9,8 @@
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white)
 [![CI](https://github.com/ecomera-ecosystem/ecomera-auth-service/actions/workflows/ci.yml/badge.svg)](https://github.com/ecomera-ecosystem/ecomera-auth-service/actions/workflows/ci.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ecomera-auth-service&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ecomera-auth-service)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ecomera-auth-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ecomera-auth-service)
 
 Authentication and authorization microservice for the Ecomera ecosystem using JWT-based security.
 
