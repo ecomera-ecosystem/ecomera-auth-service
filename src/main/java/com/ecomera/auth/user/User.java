@@ -60,6 +60,13 @@ public class User extends BaseEntity implements UserDetails {
     @Column(length = 45)
     private String ipAddress;
 
+    @Size(max = 20)
+    @Column(length = 20)
+    private String phone;
+
+    @Column
+    private LocalDateTime dateOfBirth;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade =  CascadeType.ALL, orphanRemoval = true)
     private List<Token> tokens;

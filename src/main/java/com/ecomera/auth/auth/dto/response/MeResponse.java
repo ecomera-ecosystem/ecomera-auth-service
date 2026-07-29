@@ -12,5 +12,9 @@ public record MeResponse(
         @Schema(description = "First name") String firstName,
         @Schema(description = "Last name") String lastName,
         @Schema(description = "Role") String role,
-        @Schema(description = "Last login timestamp") LocalDateTime lastLogin
+        @Schema(description = "Last login timestamp") LocalDateTime lastLogin,
+        @Schema(description = "Last login IP address") String ipAddress,
+        @Schema(description = "Account creation timestamp") LocalDateTime createdAt,
+        @Schema(description = "Phone number") String phone,
+        @Schema(description = "Date of birth") LocalDateTime dateOfBirth
 ) {}

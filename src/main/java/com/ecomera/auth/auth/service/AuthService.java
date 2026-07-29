@@ -67,6 +67,8 @@ public class AuthService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", savedUser.getId().toString());
         claims.put("roles", savedUser.getRole().name());
+        claims.put("firstName", savedUser.getFirstName());
+        claims.put("lastName", savedUser.getLastName());
         String jwtToken = jwtService.generateToken(claims, savedUser);
         String refreshToken = jwtService.generateRefreshToken(savedUser);
 
@@ -93,6 +95,8 @@ public class AuthService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId().toString());
         claims.put("roles", user.getRole().name());
+        claims.put("firstName", user.getFirstName());
+        claims.put("lastName", user.getLastName());
         String jwtToken = jwtService.generateToken(claims, user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
@@ -130,6 +134,8 @@ public class AuthService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId().toString());
         claims.put("roles", user.getRole().name());
+        claims.put("firstName", user.getFirstName());
+        claims.put("lastName", user.getLastName());
         String accessToken = jwtService.generateToken(claims, user);
 
         revokeAllUserTokens(user);

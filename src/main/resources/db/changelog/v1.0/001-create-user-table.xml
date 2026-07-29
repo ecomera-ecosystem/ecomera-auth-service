@@ -46,6 +46,8 @@
             </column>
             <column name="last_login" type="DATETIME"/>
             <column name="ip_address" type="VARCHAR(45)"/>
+            <column name="phone" type="VARCHAR(20)"/>
+            <column name="date_of_birth" type="DATE"/>
         </createTable>
 
         <addUniqueConstraint columnNames="email" constraintName="uc_app_user_email" tableName="app_user"/>

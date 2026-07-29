@@ -15,6 +15,10 @@ public interface UserMapper {
 
     @Mapping(target = "id", source = "id", qualifiedByName = "uuidToString")
     @Mapping(target = "role", source = "role", qualifiedByName = "roleToString")
+    @Mapping(target = "ipAddress", source = "ipAddress")
+    @Mapping(target = "createdAt", source = "createdAt")
+    @Mapping(target = "phone", source = "phone")
+    @Mapping(target = "dateOfBirth", source = "dateOfBirth")
     MeResponse toMeResponse(User user);
 
     @Mapping(target = "id", source = "id", qualifiedByName = "uuidToString")
